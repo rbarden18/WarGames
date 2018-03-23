@@ -15,4 +15,5 @@ public class Health extends Collectable
     public String getSymbol(){
         return("\uD83D\uDC89");
     }
+    //Other options \u26E8,  26D1
 }

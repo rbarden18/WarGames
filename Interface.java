@@ -7,12 +7,12 @@ public class Interface
         Hero c1 = new Hero();
         Health c2 = new Health();
         Ammo c3 = new Ammo();
+        Obstacle c4 = new Obstacle();
         testG.addChar(c2);
         testG.addChar(c3);
         testG.addChar(c0);
-        testG.display();
+        testG.addChar(c4);
         testG.addChar(c1);
         testG.display();
-        System.out.println(c1.getSymbol());
     }
 }

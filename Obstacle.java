@@ -26,6 +26,7 @@ public class Obstacle extends Character
     }
     
     public String getSymbol(){
-        return("X");
+        return("\u26A0");
     }
+    //Other options \u2623,  \u2622, \u26DD
 }

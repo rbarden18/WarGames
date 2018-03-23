@@ -7,8 +7,9 @@ public class Hero extends Character
     private final int maxAmmo = 5;
     public int ammo;
     public int xPos,yPos;
-    private static int heroCount = 1;
+    private static int heroCount = 0;
     private String heroSymbol;
+    private final String[] symbArr = {"\u2603","\u26f4","\u26F9","\u260E","\u26DF","\u26F8","\u26CF"};
     //private int attackVal;
 
     public Hero()
@@ -17,7 +18,7 @@ public class Hero extends Character
         this.name = "Name";
         hp = 1;
         ammo = 1;
-        heroSymbol = ("p" + heroCount);
+        heroSymbol = (symbArr[heroCount]);
         heroCount ++;
     }
     public Hero(String name, int hp)
@@ -46,6 +47,6 @@ public class Hero extends Character
     }
     
     public String getSymbol(){
-        return(heroSymbol);
+        return (heroSymbol);
     }
 }
