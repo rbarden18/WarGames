@@ -2,9 +2,12 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 import javax.swing.border.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 //https://stackoverflow.com/questions/21077322/create-a-chess-board-with-jpanel
 //https://stackoverflow.com/questions/18686199/fill-unicode-characters-in-labels
-public class GameBoard {
+//https://stackoverflow.com/questions/17511789/button-actionlistener
+public class GameBoard{
     
     private final JPanel gui = new JPanel(new BorderLayout(3, 3));
     private static JButton[][] chessBoardSquares = new JButton[10][10];
@@ -22,14 +25,59 @@ public class GameBoard {
         JToolBar tools = new JToolBar();
         tools.setFloatable(false);
         gui.add(tools, BorderLayout.PAGE_START);
-        tools.add(new JButton("moveNorth")); // TODO - add functionality!
-        tools.add(new JButton("moveEast")); // TODO - add functionality!
-        tools.add(new JButton("moveSouth")); // TODO - add functionality!
-        tools.add(new JButton("moveWest")); // TODO - add functionality!
+        
+        //create toolbar buttons
+        JButton moveNorth = new JButton("moveNorth");
+        JButton moveEast = new JButton("moveEast");
+        JButton moveSouth = new JButton("moveSouth");
+        JButton moveWest = new JButton("moveWest");
+        JButton attack = new JButton("Attack");
+        tools.add(moveNorth); // TODO - add functionality!
+        //add toolbar buttons
+        tools.add(moveEast); // TODO - add functionality!
+        tools.add(moveSouth); // TODO - add functionality!
+        tools.add(moveWest); // TODO - add functionality!
         tools.addSeparator();
-        tools.add(new JButton("Attack")); // TODO - add functionality!
+        tools.add(attack); // TODO - add functionality!
         tools.addSeparator();
         tools.add(message);
+        
+        //add toolbar button functionality
+         moveNorth.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    
+                    }
+          });
+         moveEast.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    
+                    }
+          });
+         moveSouth.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    
+                    }
+          });
+          moveWest.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    
+                    }
+          });
+          attack.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    
+                    }
+          });
 
         chessBoard = new JPanel(new GridLayout(0, 10));
         chessBoard.setBorder(new LineBorder(Color.BLACK));
@@ -84,6 +132,7 @@ public class GameBoard {
                 f.add(gb.getGui());
                 f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 f.setLocationByPlatform(true);
+                
 
                 // ensures the frame is the minimum size it needs to be
                 // in order display the components within it
@@ -98,7 +147,8 @@ public class GameBoard {
                                  
                         }else{
                             AddUnicode.addColoredUnicodeCharToContainer(
-                            g1.charList.get(g1.getPos(i,j)).getSymbol(), chessBoardSquares[i][j],
+                            g1.charList.get(g1.getPos(i,j)).getSymbol(), //gets the symbol
+                            chessBoardSquares[i][j],
                             new Color(203,203,197),
                             Color.DARK_GRAY);     
                         }
