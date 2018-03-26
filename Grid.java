@@ -56,33 +56,7 @@ public class Grid
               }
         }      
     }
-    /*
-    public void display(){
-        System.out.print("\n-\u254F-");
-            for(int k=0; k<size;k++){
-                 System.out.print("\uFF0D-\u254F-");
-                 
-                }
-            System.out.println();
-        for(int i=0; i<size; i++){
-            System.out.print(" ");
-            for(int j=0; j<size; j++){
-                if(gridArray[i][j] < 0){
-                    System.out.print("\u254F \u2B1A "); //\u2B1A
-                }else{
-                    System.out.print("\u254F " + (charList.get(gridArray[i][j])).getSymbol() +" ");
-                }
-            }
-            System.out.print("\u254F \n-\u254F-");
-            for(int k=0; k<size; k++){
-                 System.out.print("\uFF0D-\u254F-");
-                 //dash \uFF0D      vert \u254F
-                }
-            System.out.println();
-        }
-        System.out.println("================================================");
-        
-    }*/
+    
     
    public String display(){
         String out = ("\n-\u254F-");
@@ -111,32 +85,5 @@ public class Grid
         
         return out;
     }
-    /*
-    public String display(){
-        String out = ("<BR>-\u254F-");
-            for(int k=0; k<size;k++){
-                 out +=("\uFF0D-\u254F-");
-                 
-                }
-            out += "<BR>";
-        for(int i=0; i<size; i++){
-            out +=(" ");
-            for(int j=0; j<size; j++){
-                if(gridArray[i][j] < 0){
-                    out +=("\u254F \u2B1A "); //\u2B1A
-                }else{
-                    out +=("\u254F " + (charList.get(gridArray[i][j])).getSymbol() +" ");
-                }
-            }
-            out +=("\u254F <BR>-\u254F-");
-            for(int k=0; k<size; k++){
-                 out +=("\uFF0D-\u254F-");
-                 //dash \uFF0D      vert \u254F
-                }
-            out += "<BR>";
-        }
-        out +=("================================================<BR>");
-        
-        return out;
-    }*/
+    
 } 
