@@ -56,6 +56,20 @@ public class Grid
               }
         }      
     }
+    
+    public void move(Character currentChar, int xChange, int yChange){
+        if((this.getXPos(currentChar) + xChange) < 0 || (this.getXPos(currentChar) + xChange) > size - 1){
+            //can't move
+        } else if((this.getYPos(currentChar) + xChange) < 0 || (this.getYPos(currentChar) + xChange) > size - 1){
+            //can't move
+        } else if(gridArray[(this.getXPos(currentChar)) + xChange][this.getYPos(currentChar) + yChange] == -1){
+            gridArray[(this.getXPos(currentChar)) + xChange][this.getYPos(currentChar) + yChange] = gridArray[(this.getXPos(currentChar))][this.getYPos(currentChar)];
+            gridArray[(this.getXPos(currentChar))][this.getYPos(currentChar)] = -1;
+        } else{
+            //can't move
+        }
+    }
+    
     /*
     public void display(){
         System.out.print("\n-\u254F-");
