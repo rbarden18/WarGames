@@ -13,6 +13,10 @@ public class Ammo extends Collectable
     
     public int getModQty(){return modQty;}
     
+    
+    public String getType(){
+        return "Ammo";
+    }
     public String getSymbol(){
         return("\uD83D\uDD0B");
         //Gun symbol \uD83D\uDD2B

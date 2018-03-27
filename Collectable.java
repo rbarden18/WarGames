@@ -27,8 +27,8 @@ public abstract class Collectable extends Character
     }
     
     public int getModID(){return modID;}
-    
     public int getModQty(){return modQty;}
+    public abstract String getType();
     
     public String toString(){
      return ("==============\nmodID0 = " + modIDArr[0] +"\nmodID1 = " + modIDArr[1]);

@@ -24,7 +24,9 @@ public class Obstacle extends Character
     {
         return (this.name + "" + this.hp + this.ammo);
     }
-    
+    public String getType(){
+        return "Obstacle";
+    }
     public String getSymbol(){
         return("\u26A0");
     }

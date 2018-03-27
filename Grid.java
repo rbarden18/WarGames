@@ -3,7 +3,7 @@ public class Grid
 {
     private int[][] gridArray;
     public ArrayList<Character> charList = new ArrayList<Character>();
-    private final int size = 10;
+    public static final int size = 10;
     public Grid(){
         gridArray = new int[size][size];
         for(int i=0; i<size; i++){
@@ -58,17 +58,35 @@ public class Grid
     }
     
 
-    public void move(Character currentChar, int xChange, int yChange){
-        if((this.getXPos(currentChar) + xChange) < 0 || (this.getXPos(currentChar) + xChange) > size - 1){
+    public void movePos(Character currentChar, int xChange, int yChange){
+        int xLoc = this.getXPos(currentChar);
+        int yLoc = this.getYPos(currentChar);
+        if((xLoc + xChange) < 0 || (xLoc + xChange) > size - 1){
             //can't move
-        } else if((this.getYPos(currentChar) + xChange) < 0 || (this.getYPos(currentChar) + xChange) > size - 1){
+        } else if((yLoc + yChange) < 0 || (yLoc + yChange) > size - 1){
             //can't move
         } else if(gridArray[(this.getXPos(currentChar)) + xChange][this.getYPos(currentChar) + yChange] == -1){
-            gridArray[(this.getXPos(currentChar)) + xChange][this.getYPos(currentChar) + yChange] = gridArray[(this.getXPos(currentChar))][this.getYPos(currentChar)];
-            gridArray[(this.getXPos(currentChar))][this.getYPos(currentChar)] = -1;
+            gridArray[(xLoc) + xChange][yLoc + yChange] = gridArray[(xLoc)][yLoc];
+            gridArray[(xLoc)][yLoc] = -1;
         } else{
             //can't move
         }
+        GameBoard.turn(this);
+    }
+    public void moveNeg(Character currentChar, int xChange, int yChange){
+        int xLoc = this.getXPos(currentChar);
+        int yLoc = this.getYPos(currentChar);
+        if((xLoc - xChange) < 0 || (xLoc - xChange) > size - 1){
+            //can't move
+        } else if((this.getYPos(currentChar) - yChange) < 0 || (yLoc - yChange) > size - 1){
+            //can't move
+        } else if(gridArray[(this.getXPos(currentChar)) - xChange][this.getYPos(currentChar) - yChange] == -1){
+            gridArray[(xLoc) - xChange][yLoc - yChange] = gridArray[(xLoc)][yLoc];
+            gridArray[(xLoc)][yLoc] = -1;
+        } else{
+            //can't move
+        }
+        GameBoard.turn(this);
     }
 
 

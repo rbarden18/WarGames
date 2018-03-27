@@ -31,6 +31,8 @@ public abstract class Character
         return -1;
     }
     
+    
+    public abstract String getType();
     public int getMaxAmmo(){ return maxAmmo;}
     public int getMaxHp(){ return maxHp;}
     

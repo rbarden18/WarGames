@@ -28,6 +28,5 @@ public class Interface
         GameBoard.generateBoard(testG);
         System.out.println(testG.display());
     }
-    
-    
 }
+

@@ -12,6 +12,10 @@ public class Health extends Collectable
     
     public int getModQty(){return modQty;}
     
+    
+    public String getType(){
+        return "Health";
+    }
     public String getSymbol(){
         return("\uD83D\uDC89");
     }

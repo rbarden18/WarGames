@@ -31,14 +31,18 @@ public class Hero extends Character
         heroCount ++;
     }
     
-    public void attack (Character aChar){
+    public void attack (Grid board, Character aChar){
         int roll = (int)(Math.random()*100);
-	if (roll > (5 + (this.getDistance(aChar)*5))){
-		aChar.hp -= 1;
-	}else{
-		//miss
-	}
-
+        if (roll > (5 + (this.getDistance(aChar)*5))){
+               aChar.hp -= 1;
+            }else{
+               //miss
+            }
+            GameBoard.turn(board);
+    }
+    
+    public String getType(){
+        return "Hero";
     }
     
     public String toString()
