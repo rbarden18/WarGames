@@ -11,39 +11,49 @@ import java.util.Scanner;
 //https://stackoverflow.com/questions/18686199/fill-unicode-characters-in-labels
 //https://stackoverflow.com/questions/17511789/button-actionlistener
 public class GameBoard{
-    
+    //create Initial GUI Variables
     private final JPanel gui = new JPanel(new BorderLayout(3, 3));
     private static JButton[][] chessBoardSquares = new JButton[10][10];
     private static JPanel chessBoard;
     
-    //private static JPanel selection;
+    //create Initial essential class int variables
+    private static int roundNumber =1; //used to find the round number
+    private static int playerTurn =0;  //used to find which player's turn it is
+    private static int targetNumber = 0;//target number is used to find which player is being targeted
     
+    //create essential class arrays and arrayLists
+    private static ArrayList<Hero> turnOrder = new ArrayList<Hero>(); //used to find which player's turn it is
+    private static ArrayList<Hero> invalidList = new ArrayList<Hero>(); //used to find which players are no longer active  
+    private static Character[] playerNums; //keeps player Numbers constant
     
-    private final JLabel message = new JLabel("Make your move, Player 1.");
-    
-    private static int roundNumber =1;
-    private static int playerTurn =0;        
+    //create JLabels for the GUI
+    public final static JLabel message = new JLabel("Make your move, Player 1.");
     private static  JLabel roundDisplay = new JLabel("Round "+roundNumber+":"); 
     private static  JLabel playerTurnDisplay = new JLabel("Player "+(playerTurn+1)+"'s turn"); 
-    
     private JLabel targetInstructions = new JLabel ("Select who to Target: ");
-    private static int targetNumber = 0;
     private JLabel targetDisplay = new JLabel("Target: Player " + targetNumber);
-    
-    private static ArrayList<Hero> turnOrder = new ArrayList<Hero>();
+    private JLabel player1Display;
+    private JLabel player2Display;
+    private JLabel player3Display;
+    private JLabel player4Display;
+    private JLabel player1Info;
+    private JLabel player2Info;
+    private JLabel player3Info;
+    private JLabel player4Info;
 
-    GameBoard(Grid board) {
+    GameBoard(Grid board) {//constructor
         initializeGui(board);
     }
 
-    public final void initializeGui(Grid board) {
-        addHeros(board);
+    public final void initializeGui(Grid board) {//method creates the GUI
+        addHeros(board);////adds heros created in (Grid board) to turnOrder arrayList
+        
         // set up the main GUI
         gui.setBorder(new EmptyBorder(5, 5, 5, 5));
         JToolBar tools = new JToolBar();
         
-        tools.setFloatable(false);
-        gui.add(tools, BorderLayout.PAGE_START);
+        tools.setFloatable(false);//sets it so the toolbar cannot be moved
+        gui.add(tools, BorderLayout.PAGE_START);//ads the toolbar to the begnning of the page
         
         //create toolbar buttons
         JButton moveNorth = new JButton("moveNorth");
@@ -51,12 +61,13 @@ public class GameBoard{
         JButton moveSouth = new JButton("moveSouth");
         JButton moveWest = new JButton("moveWest");
         JButton attack = new JButton("Attack");
-        tools.add(moveNorth); 
+         
         //add toolbar buttons
+        tools.add(moveNorth);
         tools.add(moveEast); 
         tools.add(moveSouth); 
         tools.add(moveWest); 
-        tools.addSeparator();
+        tools.addSeparator(); //adds a gap in between components on the toolbar
         tools.add(attack); 
         tools.addSeparator();
         tools.add(roundDisplay);
@@ -64,13 +75,14 @@ public class GameBoard{
         tools.add(playerTurnDisplay);
         
         
-        //set up turn counters
-        JToolBar turns = new JToolBar();
-        turns.setFloatable(false);
-        gui.add(turns, BorderLayout.SOUTH);
+        //set up status diplay
+        JToolBar status = new JToolBar();//creates a new toolbar (default horizontal positioning)
+        status.setFloatable(false);
+        gui.add(status, BorderLayout.SOUTH);//adds this toolbar to the bottom of the panel
         
-        turns.addSeparator();
-        turns.add(message);
+        //Adds status message JLabel to status toolbar
+        status.addSeparator();
+        status.add(message);
         
         
         //set up targeting system
@@ -78,6 +90,14 @@ public class GameBoard{
         JRadioButton playerTwo = new JRadioButton ("Player 2");
         JRadioButton playerThree = new JRadioButton ("Player 3");
         JRadioButton playerFour = new JRadioButton ("Player 4");
+        
+        //creats JLabels to show information about each hero
+        player1Display = new JLabel("Player 1  "+ playerNums[0].getSymbol());
+        player1Info = new JLabel("Health: " + playerNums[0].hp +"   Ammo: " + playerNums[0].ammo);
+        player2Display = new JLabel("Player 2  "+ playerNums[1].getSymbol());
+        player2Info = new JLabel("Health: " + playerNums[1].hp +"   Ammo: " + playerNums[1].ammo);
+        
+        
         
         //create Button group and assign Radio buttons to it
         ButtonGroup selectGroup = new ButtonGroup();
@@ -90,54 +110,80 @@ public class GameBoard{
         JToolBar selection = new JToolBar(1);//creates a vertical toolbar
         selection.setFloatable(false);
         
-        //add elements to toolbar
+        //add elements to selection toolbar
         selection.addSeparator();
         selection.add(targetInstructions);
         selection.addSeparator();
         selection.add(playerOne);
         selection.add(playerTwo);
-        if(turnOrder.size()>2){
+        if(turnOrder.size()>2){ //only adds 3rd radioButton if there is a 3rd player
            selection.add(playerThree);
         }
-        if(turnOrder.size()>3){
+        if(turnOrder.size()>3){//only adds 4th radioButton if there is a 4th player
            selection.add(playerFour); 
         }
         selection.addSeparator();
         selection.add(targetDisplay);
-        
-        
+        selection.addSeparator();
+        selection.addSeparator();
+        selection.add(player1Display);
+        selection.add(player1Info);
+        selection.addSeparator();
+        selection.add(player2Display);
+        selection.add(player2Info);
+        if(playerNums.length>2){ //only adds 3rd player information if there is a 3rd player
+           selection.addSeparator();
+           player3Display = new JLabel("Player 3  "+ playerNums[2].getSymbol());
+           player3Info = new JLabel("Health: " + playerNums[2].hp +"   Ammo: " + playerNums[2].ammo);
+           selection.add(player3Display);
+           selection.add(player3Info);
+        }
+        if(playerNums.length>3){//only adds 4th player information if there is a 4th player
+           selection.addSeparator();
+           
+           player4Display = new JLabel("Player 4  "+ playerNums[1].getSymbol());
+           player4Info = new JLabel("Health: " + playerNums[2].hp +"   Ammo: " + playerNums[2].ammo);
+           selection.add(player4Display);
+           selection.add(player4Info);
+        }
+        //adds selction toolbar to the left side
         gui.add(selection,BorderLayout.WEST);
-        //add West toolbar functionality
+        
+        //adds functionality for radioButtons on the selection toolbar(Left Side)
           playerOne.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                    targetNumber=0;
-                    targetDisplay.setText("Target: Player " + (targetNumber+1));
+                    targetNumber=0; //player 1 is being targeted
+                    targetDisplay.setText("Target: Player " + (targetNumber+1)); //sets text to target player 1
+                    //System.out.println(turnOrder.get(targetNumber).getSymbol());//targeted char is correct
                     }
           });
           playerTwo.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                    targetNumber=1;
-                    targetDisplay.setText("Target: Player " + (targetNumber+1));
+                    targetNumber=1;//player 2 is being targeted
+                    targetDisplay.setText("Target: Player " + (targetNumber+1)); //sets text to target player 2
+                    //System.out.println(turnOrder.get(targetNumber).getSymbol());
                     }
           });
           playerThree.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                    targetNumber=2;
-                    targetDisplay.setText("Target: Player " + (targetNumber+1));
+                    targetNumber=2;//player 3 is being targeted
+                    targetDisplay.setText("Target: Player " + (targetNumber+1)); //sets text to target player 3
+                    //System.out.println(turnOrder.get(targetNumber).getSymbol());
                     }
           });
           playerFour.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                    targetNumber=3;
-                    targetDisplay.setText("Target: Player " + (targetNumber+1));
+                    targetNumber=3; //player 4 is being targeted
+                    targetDisplay.setText("Target: Player " + (targetNumber+1)); //sets text to target player 4
+                    //System.out.println(turnOrder.get(targetNumber).getSymbol());
                     }
           });
         //add Top toolbar button functionality
@@ -181,12 +227,15 @@ public class GameBoard{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                message.setText("Player "+(playerTurn+1)+" attacked Player "+(targetNumber+1));    
+                message.setText("Player "+(playerTurn+1)+" attacked Player "+(targetNumber+1));
+                System.out.println(turnOrder.get(playerTurn)+" vs: " + turnOrder.get(targetNumber));
                 (turnOrder.get(playerTurn)).attack(board,turnOrder.get(targetNumber));
+                System.out.println("After: "+turnOrder.get(targetNumber));
                     
                     
                     }
           });
+          
 
         chessBoard = new JPanel(new GridLayout(0, 10));
         chessBoard.setBorder(new LineBorder(Color.BLACK));
@@ -235,25 +284,60 @@ public class GameBoard{
         return gui;
     }
     
-    public static void addHeros(Grid board){
+    public static void addHeros(Grid board){//adds heros to turnOrder arrayList and sets PlayerNums array
         for (int i=0; i<board.charList.size(); i++){
             if(board.charList.get(i).getType().equals("Hero")){
                 turnOrder.add((Hero)board.charList.get(i));
             }
         }
+        playerNums = new Character[turnOrder.size()];
+        for (int k=0; k<turnOrder.size(); k++){
+            playerNums[k] = turnOrder.get(k);
+        }
     }
     
-    public static void turn(Grid board){
+    public static void turn(Grid board){ //calls methods needed to keep the GUI updated properly
+        turnCounter(board);
+        updateBoard(board);
+        checkDed(board);
+    }
+    public static void turnCounter(Grid board){
         if (playerTurn +1 ==turnOrder.size()){
             roundNumber++;
             playerTurn=0;
             roundDisplay.setText("Round "+roundNumber+":"); 
             playerTurnDisplay.setText("Player "+(playerTurn+1)+"'s turn"); 
+            
         }else{
             playerTurn++;
             playerTurnDisplay.setText("Player "+(playerTurn+1)+"'s turn");
+            
         }
-        updateBoard(board);
+    }
+    
+    public static void checkDed(Grid board){
+       for (int i = 0; i<turnOrder.size(); i++){ 
+          if(turnOrder.get(i).hp<=0){
+             System.out.println(turnOrder.get(i).getSymbol());    
+             turnOrder.get(i).setInvalidSymbol();
+             AddUnicode.addColoredUnicodeCharToContainer(
+                            "\u274E", //gets the symbol
+                            chessBoardSquares[board.getXPos(turnOrder.get(i))][board.getYPos(turnOrder.get(i))],
+                            new Color(203,203,197),
+                            Color.DARK_GRAY); 
+                            turnOrder.get(i).setInvalidSymbol();
+                            invalidList.add(turnOrder.get(i));
+                            System.out.println(playerTurn);
+                            if(i==playerTurn){
+                             turnCounter(board);  
+                            }
+                            System.out.println(playerTurn);
+                            turnOrder.remove(i);
+                            //System.out.println(board.getXPos(turnOrder.get(i)));
+                            
+            }
+        }   
+        
     }
     
     public static void generateBoard(Grid board){
@@ -283,10 +367,10 @@ public class GameBoard{
         };
         SwingUtilities.invokeLater(r);
     }
-    public static void updateBoard(Grid g1){
-      for(int i=0; i<g1.getSize(); i++){
-                    for(int j=0; j<g1.getSize(); j++){
-                        if(g1.getPos(i,j) < 0){
+    public static void updateBoard(Grid board){
+      for(int i=0; i<board.getSize(); i++){
+                    for(int j=0; j<board.getSize(); j++){
+                        if(board.getPos(i,j) < 0){
                             AddUnicode.addColoredUnicodeCharToContainer(
                             "", //gets the symbol
                             chessBoardSquares[i][j],
@@ -294,7 +378,7 @@ public class GameBoard{
                             Color.WHITE);  
                         }else{
                             AddUnicode.addColoredUnicodeCharToContainer(
-                            g1.charList.get(g1.getPos(i,j)).getSymbol(), //gets the symbol
+                            board.charList.get(board.getPos(i,j)).getSymbol(), //gets the symbol
                             chessBoardSquares[i][j],
                             new Color(203,203,197),
                             Color.DARK_GRAY);     
