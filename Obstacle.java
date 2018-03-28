@@ -6,6 +6,7 @@ public class Obstacle extends Character
     public int hp;//int that holds Character's hp
     private String symbol = "\u26A0"; //String for the Character's symbol
     private int xPos, yPos; //variables for x and y position
+    private static String type = "Obstacle";
 
     public Obstacle() //default Obstacle constructor. Sets HP of obstacle
     {
@@ -20,7 +21,7 @@ public class Obstacle extends Character
     {
         return (this.symbol + " " + this.hp);
     }
-    public String getType(){return "Obstacle";}//returns the Character type of this class (Obstacle)
+    public String getType(){return type;}//returns the Character type of this class (Obstacle)
     public String getSymbol(){return(symbol);} //returns the object's symbol
     //Other options \u2623,  \u2622, \u26DD
 }

@@ -8,6 +8,7 @@ public abstract class Character
     public int ammo;//int for ammo
     public int index;//index of the character in Grid.charList
     private String symbol; //String for the symbol
+    private String type = "Character";
     //private int attackVal; unused variable for Objects with different attack values
     //private int accuracyMod;? unused variable for Objects with accuracy values
 
@@ -60,7 +61,9 @@ public abstract class Character
             GameBoard.turn(board);//calls methods needed to keep the GUI updated 
     }
     
-    public abstract String getType(); //forces subclasses to have a getType() method that returns the name of the Subclass
+    public String getType(){ //forces subclasses to have a getType() method that returns the name of the Subclass]
+        return(type);
+    }
     
     public int getMaxAmmo(){ return maxAmmo;}//retuns maxAmmo; Subclasses inherit this
     

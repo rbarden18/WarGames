@@ -70,12 +70,20 @@ public class Grid
             //can't move
         } else if((yLoc + yChange) < 0 || (yLoc + yChange) > size - 1){
             //can't move
-        } else if((gridArray[(this.getXPos(currentChar)) + xChange][this.getYPos(currentChar) + yChange] == -1)
-                    ||(charList.get(gridArray[(this.getXPos(currentChar)) + xChange][this.getYPos(currentChar) + yChange])).getType().equals("Collectable")){ 
+        } else if((gridArray[(this.getXPos(currentChar)) + xChange][this.getYPos(currentChar) + yChange] == -1)){ 
             //can only move if space is blank or a collectable
+            String c1 = "" + (charList.get(0)).getType();
+            //System.out.println(gridArray[(this.getXPos(currentChar)) + xChange][this.getYPos(currentChar) + yChange]);
+            //System.out.println(c1);
             gridArray[(xLoc) + xChange][yLoc + yChange] = gridArray[(xLoc)][yLoc]; //new location is set for the character
             gridArray[(xLoc)][yLoc] = -1; //old location is set as blank
         } else{
+            if(((charList.get(gridArray[xLoc + xChange][yLoc + yChange])).getType()).equals("Collectable")){
+                ((Collectable)(charList.get(gridArray[xLoc + xChange][yLoc + yChange]))).addMods((charList.get(gridArray[xLoc][yLoc])), (Collectable)(charList.get(gridArray[xLoc + xChange][yLoc + yChange])));
+                gridArray[(xLoc) + xChange][yLoc + yChange] = gridArray[(xLoc)][yLoc]; //new location is set for the character
+                gridArray[(xLoc)][yLoc] = -1; //old location is set as blank
+            }
+            
             //can't move
         }
         GameBoard.turn(this);
@@ -87,12 +95,20 @@ public class Grid
             //can't move
         } else if((this.getYPos(currentChar) - yChange) < 0 || (yLoc - yChange) > size - 1){
             //can't move
-        } else if((gridArray[(this.getXPos(currentChar)) - xChange][this.getYPos(currentChar) - yChange] == -1)
-                    ||(charList.get(gridArray[(this.getXPos(currentChar)) + xChange][this.getYPos(currentChar) + yChange])).getType().equals("Collectable")){
+        } else if((gridArray[(this.getXPos(currentChar)) - xChange][this.getYPos(currentChar) - yChange] == -1)){
             //can only move if space is blank or a collectable
+            String c1 = "" + charList.get(0).getType();
+            //System.out.println(gridArray[(this.getXPos(currentChar)) - xChange][this.getYPos(currentChar) - yChange]);
+            //System.out.println(c1);
+            
             gridArray[(xLoc) - xChange][yLoc - yChange] = gridArray[(xLoc)][yLoc];//new location is set for the character
             gridArray[(xLoc)][yLoc] = -1;//old location is set as blank
         } else{
+            if(((charList.get(gridArray[xLoc - xChange][yLoc - yChange])).getType()).equals("Collectable")){
+                ((Collectable)(charList.get(gridArray[xLoc - xChange][yLoc - yChange]))).addMods((charList.get(gridArray[xLoc][yLoc])), (Collectable)(charList.get(gridArray[xLoc - xChange][yLoc - yChange])));
+                gridArray[(xLoc) + xChange][yLoc + yChange] = gridArray[(xLoc)][yLoc]; //new location is set for the character
+                gridArray[(xLoc)][yLoc] = -1; //old location is set as blank
+            }
             //can't move
         }
         GameBoard.turn(this);

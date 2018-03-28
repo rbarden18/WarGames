@@ -5,6 +5,8 @@ public class Ammo extends Collectable
     private final int modQty = 3;//modQTY gives the amount that is modified
     private int xPos, yPos; //variables for x and y position
     private String symbol ="\uD83D\uDD0B"; //String for the Character's Symbol
+    private static String type = "Collectable";
+    
     public Ammo(){
         
     }
@@ -13,7 +15,11 @@ public class Ammo extends Collectable
     
     public int getModQty(){return modQty;}//returns modQty
     
-    public String getType(){return "Collectable";}//returns what type of cCharacter this is (Collectable)
+    public String getType(){return type;}//returns what type of cCharacter this is (Collectable)
+    
+    public String toString(){
+        return("ammo pack");
+    }
     
     public String getSymbol(){return symbol;}//returns the object's symbol
         
