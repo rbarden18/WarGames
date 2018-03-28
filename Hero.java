@@ -1,56 +1,60 @@
 
 public class Hero extends Character
 {
-    private String name;
-    private final int maxHp = 7;
-    public int hp;
-    private final int maxAmmo = 5;
-    public int ammo;
-    public int xPos,yPos;
-    private static int heroCount = 0;
-    private String heroSymbol;
-    private final String[] symbArr = {"\u2603","\u26f4","\u26F9","\u260E","\u26DF","\u26F8","\u26CF"};
-    //private int attackVal;
+    private final int maxHp = 7;//int which maintains the max HP capacity for a hero
+    public int hp;//int that holds Hero's hp
+    private final int maxAmmo = 5;//int which maintains the max Ammo capacity for a hero
+    public int ammo; //int for ammo
+    public int xPos,yPos; //variables for x and y position
+    private static int heroCount = 0;//int displaying number of heros
+    private String symbol; //String for the symbol
+    private final String[] symbArr = {"\u2603","\u26f4","\u26F9","\u260E","\u26DF","\u26F8","\u26CF"};//array of symbols for Hero Objects
+    //private int attackVal; unused variable for Objects with different attack values
 
-    public Hero()
+    public Hero()//default constructor
     {
-        super();
-        this.name = "Name";
         hp = 1;
         ammo = 1;
-        heroSymbol = (symbArr[heroCount]);
+        symbol = (symbArr[heroCount]);
         heroCount ++;
     }
-    public Hero(String name, int hp)
+    
+    
+    public Hero(int hp)//constructor with parameter for custom HP
     {
         //Grid.arrayList.add(thisCharacter)
-        this.name = name;
+        
         this.hp = hp;
         ammo = 1;
-        heroSymbol = ("p" + heroCount);
+        symbol = ("p" + heroCount);
         heroCount ++;
     }
     
+    public void takeDamage(int amount){//function has the character take damage equal to amount
+        this.hp = this.hp-amount;
+    }
+    
+    //attack tries to remove HP from and opponent and always calls the GameBoard.turn fuction
     public void attack (Grid board, Character aChar){
         int roll = (int)(Math.random()*100);
-        if (roll > (5 + (this.getDistance(aChar)*5))){
-               aChar.hp -= 1;
+        if (roll > (5 + (this.getDistance(aChar)*5))){ //if statement creates an accuracy system
+               aChar.takeDamage(1);
             }else{
-               //miss
+               GameBoard.message.setText(GameBoard.message.getText()+": Shot Missed!");
             }
-            GameBoard.turn(board);
+            GameBoard.turn(board);//calls methods needed to keep the GUI updated 
     }
     
-    public String getType(){
-        return "Hero";
+    public void setInvalidSymbol(){ //sets the symbol of a 0HP character to an X
+        this.symbol ="\u274E";
     }
     
-    public String toString()
+    public String getType(){return "Hero";}//returns what type of Character this is
+    
+    public String toString()//toString Function displays symbol Characters ammo and HP
     {
-        return (this.name + "" + this.hp + this.ammo);
+        return (this.symbol + " Health: " + this.hp +"  Ammo: "+ this.ammo);
     }
     
-    public String getSymbol(){
-        return (heroSymbol);
-    }
+    public String getSymbol(){return symbol;}//method returns the symbol variable
 }
