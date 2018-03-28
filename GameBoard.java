@@ -140,7 +140,6 @@ public class GameBoard{
         }
         if(playerNums.length>3){//only adds 4th player information if there is a 4th player
            selection.addSeparator();
-           
            player4Display = new JLabel("Player 4  "+ playerNums[1].getSymbol());
            player4Info = new JLabel("Health: " + playerNums[2].hp +"   Ammo: " + playerNums[2].ammo);
            selection.add(player4Display);
@@ -161,7 +160,7 @@ public class GameBoard{
           });
           playerTwo.addActionListener(new ActionListener() {
 
-            @Override
+            @Override //method is overriding the parent class
             public void actionPerformed(ActionEvent e) {
                     targetNumber=1;//player 2 is being targeted
                     targetDisplay.setText("Target: Player " + (targetNumber+1)); //sets text to target player 2
@@ -170,7 +169,7 @@ public class GameBoard{
           });
           playerThree.addActionListener(new ActionListener() {
 
-            @Override
+            @Override //method is overriding the parent class
             public void actionPerformed(ActionEvent e) {
                     targetNumber=2;//player 3 is being targeted
                     targetDisplay.setText("Target: Player " + (targetNumber+1)); //sets text to target player 3
@@ -179,76 +178,78 @@ public class GameBoard{
           });
           playerFour.addActionListener(new ActionListener() {
 
-            @Override
+            @Override //method is overriding the parent class
             public void actionPerformed(ActionEvent e) {
                     targetNumber=3; //player 4 is being targeted
                     targetDisplay.setText("Target: Player " + (targetNumber+1)); //sets text to target player 4
                     //System.out.println(turnOrder.get(targetNumber).getSymbol());
                     }
           });
+        
+        
         //add Top toolbar button functionality
-            moveNorth.addActionListener(new ActionListener() {
+            moveNorth.addActionListener(new ActionListener() {//adds an action to the button moveNorth, which moves the character Up
 
-            @Override
+            @Override //method is overriding the parent class
             public void actionPerformed(ActionEvent e) {
-                message.setText("Player "+(playerTurn+1)+" moves North");    
-                board.moveNeg(turnOrder.get(playerTurn),0,1);
+                message.setText("Player "+(playerTurn+1)+" moves North");//sets message text saying which player moved what direction    
+                board.moveNeg(turnOrder.get(playerTurn),0,1); //call the move method to actually move the character
                     
                     }
           });
-         moveEast.addActionListener(new ActionListener() {
+         moveEast.addActionListener(new ActionListener() { //adds an action to the button moveEast, which moves the character right
 
-            @Override
+            @Override //method is overriding the parent class
             public void actionPerformed(ActionEvent e) {
-                message.setText("Player "+(playerTurn+1)+" moves East");    
-                board.movePos(turnOrder.get(playerTurn),1,0);
+                message.setText("Player "+(playerTurn+1)+" moves East");//sets message text saying which player moved what direction
+                board.movePos(turnOrder.get(playerTurn),1,0); //call the move method to actually move the character
                     
                     }
           });
-         moveSouth.addActionListener(new ActionListener() {
+         moveSouth.addActionListener(new ActionListener() {//adds an action to the button moveSouth, which moves the character Down
 
-            @Override
+            @Override //method is overriding the parent class
             public void actionPerformed(ActionEvent e) {
-                message.setText("Player "+(playerTurn+1)+" moves South");
-                board.movePos(turnOrder.get(playerTurn),0,1);
+                message.setText("Player "+(playerTurn+1)+" moves South");//sets message text saying which player moved what direction
+                board.movePos(turnOrder.get(playerTurn),0,1);//call the move method to actually move the character
                     
                     }
           });
-          moveWest.addActionListener(new ActionListener() {
+          moveWest.addActionListener(new ActionListener() {//adds an action to the button moveWest, which moves the character Left
 
-            @Override
+            @Override //method is overriding the parent class
             public void actionPerformed(ActionEvent e) {
-                message.setText("Player "+(playerTurn+1)+" moves West");    
-                board.moveNeg(turnOrder.get(playerTurn),1,0);
+                message.setText("Player "+(playerTurn+1)+" moves West");//sets message text saying which player moved what direction
+                board.moveNeg(turnOrder.get(playerTurn),1,0); //call the move method to actually move the character
                     
                     }
           });
-          attack.addActionListener(new ActionListener() {
+          attack.addActionListener(new ActionListener() {//adds function to the attack button
 
-            @Override
+            @Override //method is overriding the parent class
             public void actionPerformed(ActionEvent e) {
-                message.setText("Player "+(playerTurn+1)+" attacked Player "+(targetNumber+1));
-                System.out.println(turnOrder.get(playerTurn)+" vs: " + turnOrder.get(targetNumber));
-                (turnOrder.get(playerTurn)).attack(board,turnOrder.get(targetNumber));
-                System.out.println("After: "+turnOrder.get(targetNumber));
+                message.setText("Player "+(playerTurn+1)+" attacked Player "+(targetNumber+1)); //sets message text
+                //System.out.println(turnOrder.get(playerTurn)+" vs: " + turnOrder.get(targetNumber));
+                (turnOrder.get(playerTurn)).attack(board,turnOrder.get(targetNumber)); //player attacks the targeted player
+                //System.out.println("After: "+turnOrder.get(targetNumber));
                     
                     
                     }
           });
           
-
-        chessBoard = new JPanel(new GridLayout(0, 10));
+        //sets up the actual board
+        chessBoard = new JPanel(new GridLayout(0, 10)); 
         chessBoard.setBorder(new LineBorder(Color.BLACK));
         gui.add(chessBoard);
 
-        // create the chess board squares
+        // creates squares to add to chessBoard
         Insets buttonMargin = new Insets(0,0,0,0);
         for (int ii = 0; ii < chessBoardSquares.length; ii++) {
             for (int jj = 0; jj < chessBoardSquares[ii].length; jj++) {
                 JButton b = new JButton();
                 b.setMargin(buttonMargin);
-                // our chess pieces are 64x64 px in size, so we'll
-                // 'fill this in' using a transparent icon..
+                
+                //use a transparent Icon to set the deminsions of each square
                 ImageIcon icon = new ImageIcon(
                         new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB));
                 b.setIcon(icon);
@@ -268,21 +269,10 @@ public class GameBoard{
         
     }
     
-    public static int read(){ //scanner method
-        Scanner sc = new Scanner(System.in); //constructor for scanner
-        
-        System.out.println("Enter the Number of the Player you wish to Attack (1,2,3,4,ETC."); //Interface for user
-        return sc.nextInt(); //sets string value from scanner into par
-    }
-    
 
-    public final JComponent getChessBoard() {
-        return chessBoard;
-    }
+    public final JComponent getChessBoard() {return chessBoard;} //returns chessBoard variable
 
-    public final JComponent getGui() {
-        return gui;
-    }
+    public final JComponent getGui() {return gui;}//returns the gui
     
     public static void addHeros(Grid board){//adds heros to turnOrder arrayList and sets PlayerNums array
         for (int i=0; i<board.charList.size(); i++){
@@ -301,7 +291,8 @@ public class GameBoard{
         updateBoard(board);
         checkDed(board);
     }
-    public static void turnCounter(Grid board){
+    //finds and sets which player's turn it is as well as the round nuber
+    public static void turnCounter(Grid board){ 
         if (playerTurn +1 ==turnOrder.size()){
             roundNumber++;
             playerTurn=0;
