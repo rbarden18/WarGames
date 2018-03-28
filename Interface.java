@@ -12,11 +12,11 @@ public class Interface
         Obstacle c4 = new Obstacle();
         
         //add all character Objects to mainGrid
+        mainGrid.addChar(c0);
+        mainGrid.addChar(c1);
         mainGrid.addChar(c2);
         mainGrid.addChar(c3);
-        mainGrid.addChar(c0);
         mainGrid.addChar(c4);
-        mainGrid.addChar(c1);
         
         //Generates the game board and begins game
         GameBoard.generateBoard(mainGrid);

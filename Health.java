@@ -4,6 +4,7 @@ public class Health extends Collectable
     private final int modQty = 3;//modQTY gives the amount that is modified
     private int xPos, yPos; //variables for x and y position
     private String symbol = "\u26E8";//String for the Character's Symbol
+    private static String type = "Collectable";
     
     public Health(){
         
@@ -13,7 +14,11 @@ public class Health extends Collectable
     
     public int getModQty(){return modQty;}//returns modQty
     
-    public String getType(){return "Collectable";}//returns what type of cCharacter this is (Health)
+    public String getType(){return type;}//returns what type of cCharacter this is (Health)
+    
+    public String toString(){
+        return("health pack");
+    }
     
     public String getSymbol(){return symbol;}//returns the object's symbol
     

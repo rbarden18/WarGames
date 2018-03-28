@@ -38,7 +38,7 @@ public abstract class Collectable extends Character
     public abstract String getType();//getType method returns what type of cCharacter this is (Ammo)
     
     public String toString(){//toString displays the values of modIDArr
-     return ("==============\nmodID0 = " + modIDArr[0] +"\nmodID1 = " + modIDArr[1]);
+     return (this.getType());
     }
     
     //abstract method get type requires subclasses to have a getSymbol method
