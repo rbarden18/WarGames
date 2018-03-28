@@ -8,12 +8,12 @@ public class Hero extends Character
     public int xPos,yPos; //variables for x and y position
     private static int heroCount = 0;//int displaying number of heros
     private String symbol; //String for the symbol
-    private final String[] symbArr = {"\u2603","\u26f4","\u26F9","\u260E","\u26DF","\u26F8","\u26CF"};//array of symbols for Hero Objects
+    private final String[] symbArr = {"\u2603","\u260E","\u26DF","\u26F8","\u26CF","\u26F9","\u26f4"};//array of symbols for Hero Objects
     //private int attackVal; unused variable for Objects with different attack values
 
     public Hero()//default constructor
     {
-        hp = 1;
+        hp = 3;
         ammo = 1;
         symbol = (symbArr[heroCount]);
         heroCount ++;
