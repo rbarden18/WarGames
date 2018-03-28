@@ -24,7 +24,7 @@ public class GameBoard{
     //create essential class arrays and arrayLists
     private static ArrayList<Hero> turnOrder = new ArrayList<Hero>(); //used to find which player's turn it is
     private static ArrayList<Hero> invalidList = new ArrayList<Hero>(); //used to find which players are no longer active  
-    private static Character[] playerNums; //keeps player Numbers constant
+    private static Hero[] playerNums; //keeps player Numbers constant
     
     //create JLabels for the GUI
     public final static JLabel message = new JLabel("Make your move, Player 1.");
@@ -36,10 +36,10 @@ public class GameBoard{
     private JLabel player2Display;
     private JLabel player3Display;
     private JLabel player4Display;
-    private JLabel player1Info;
-    private JLabel player2Info;
-    private JLabel player3Info;
-    private JLabel player4Info;
+    private static JLabel player1Info;
+    private static JLabel player2Info;
+    private static JLabel player3Info;
+    private static JLabel player4Info;
 
     GameBoard(Grid board) {//constructor
         initializeGui(board);
@@ -92,6 +92,9 @@ public class GameBoard{
         JRadioButton playerFour = new JRadioButton ("Player 4");
         
         //creats JLabels to show information about each hero
+        System.out.println(playerNums[0].getSymbol());
+        System.out.println(playerNums[0].hp);
+        System.out.println(playerNums[0].ammo);
         player1Display = new JLabel("Player 1  "+ playerNums[0].getSymbol());
         player1Info = new JLabel("Health: " + playerNums[0].hp +"   Ammo: " + playerNums[0].ammo);
         player2Display = new JLabel("Player 2  "+ playerNums[1].getSymbol());
@@ -193,7 +196,7 @@ public class GameBoard{
             @Override //method is overriding the parent class
             public void actionPerformed(ActionEvent e) {
                 message.setText("Player "+(playerTurn+1)+" moves North");//sets message text saying which player moved what direction    
-                board.moveNeg(turnOrder.get(playerTurn),0,1); //call the move method to actually move the character
+                board.move(turnOrder.get(playerTurn),0,-1); //call the move method to actually move the character
                     
                     }
           });
@@ -202,7 +205,7 @@ public class GameBoard{
             @Override //method is overriding the parent class
             public void actionPerformed(ActionEvent e) {
                 message.setText("Player "+(playerTurn+1)+" moves East");//sets message text saying which player moved what direction
-                board.movePos(turnOrder.get(playerTurn),1,0); //call the move method to actually move the character
+                board.move(turnOrder.get(playerTurn),1,0); //call the move method to actually move the character
                     
                     }
           });
@@ -211,7 +214,7 @@ public class GameBoard{
             @Override //method is overriding the parent class
             public void actionPerformed(ActionEvent e) {
                 message.setText("Player "+(playerTurn+1)+" moves South");//sets message text saying which player moved what direction
-                board.movePos(turnOrder.get(playerTurn),0,1);//call the move method to actually move the character
+                board.move(turnOrder.get(playerTurn),0,1);//call the move method to actually move the character
                     
                     }
           });
@@ -220,7 +223,7 @@ public class GameBoard{
             @Override //method is overriding the parent class
             public void actionPerformed(ActionEvent e) {
                 message.setText("Player "+(playerTurn+1)+" moves West");//sets message text saying which player moved what direction
-                board.moveNeg(turnOrder.get(playerTurn),1,0); //call the move method to actually move the character
+                board.move(turnOrder.get(playerTurn),-1,0); //call the move method to actually move the character
                     
                     }
           });
@@ -255,6 +258,7 @@ public class GameBoard{
                 b.setIcon(icon);
                 b.setBackground(Color.WHITE);
                 b.setBorder(new LineBorder(Color.BLACK));
+                b.setEnabled(false); //makes it so that buttons are not editable
                 
                 chessBoardSquares[jj][ii] = b;
             }
@@ -280,7 +284,7 @@ public class GameBoard{
                 turnOrder.add((Hero)board.charList.get(i));
             }
         }
-        playerNums = new Character[turnOrder.size()];
+        playerNums = new Hero[turnOrder.size()];
         for (int k=0; k<turnOrder.size(); k++){
             playerNums[k] = turnOrder.get(k);
         }
@@ -290,9 +294,11 @@ public class GameBoard{
         turnCounter(board);
         updateBoard(board);
         checkDed(board);
+        updatePlayerInfo();
+        
     }
     //finds and sets which player's turn it is as well as the round nuber
-    public static void turnCounter(Grid board){ 
+    public static void turnCounter(Grid board){  
         if (playerTurn +1 ==turnOrder.size()){
             roundNumber++;
             playerTurn=0;
@@ -306,11 +312,18 @@ public class GameBoard{
         }
     }
     
-    public static void checkDed(Grid board){
+    public static void updatePlayerInfo(){ //sets the player information on the right side toolbar
+        player1Info.setText("Health: " + playerNums[0].hp +"   Ammo: " + playerNums[0].ammo);
+        player2Info.setText("Health: " + playerNums[1].hp +"   Ammo: " + playerNums[1].ammo);
+        player3Info.setText("Health: " + playerNums[2].hp +"   Ammo: " + playerNums[2].ammo);
+        player4Info.setText("Health: " + playerNums[3].hp +"   Ammo: " + playerNums[3].ammo);
+    }
+    
+    public static void checkDed(Grid board){ //checks to see if any character is incapacitated
        for (int i = 0; i<turnOrder.size(); i++){ 
-          if(turnOrder.get(i).hp<=0){
-             System.out.println(turnOrder.get(i).getSymbol());    
-             turnOrder.get(i).setInvalidSymbol();
+          if(turnOrder.get(i).hp<=0){ //if characters hp is less than 0 they are incapacitated
+             //System.out.println(turnOrder.get(i).getSymbol());    
+             turnOrder.get(i).setInvalidSymbol();//changes characters symbol to an invalid symbol
              AddUnicode.addColoredUnicodeCharToContainer(
                             "\u274E", //gets the symbol
                             chessBoardSquares[board.getXPos(turnOrder.get(i))][board.getYPos(turnOrder.get(i))],
@@ -322,8 +335,8 @@ public class GameBoard{
                             if(i==playerTurn){
                              turnCounter(board);  
                             }
-                            System.out.println(playerTurn);
-                            turnOrder.remove(i);
+                            //System.out.println(playerTurn);
+                            turnOrder.remove(i);//removes the character from the return order
                             //System.out.println(board.getXPos(turnOrder.get(i)));
                             
             }
@@ -341,7 +354,7 @@ public class GameBoard{
 
                 JFrame f = new JFrame("WarGames");
                 f.add(gb.getGui());
-                f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 f.setLocationByPlatform(true);
                 
 
