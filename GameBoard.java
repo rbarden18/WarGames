@@ -1,12 +1,12 @@
 import java.awt.*;
 import java.util.ArrayList;
 import java.awt.image.BufferedImage;
-import java.awt.event.*;
+
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.util.Scanner;
+
 //https://stackoverflow.com/questions/21077322/create-a-chess-board-with-jpanel
 //https://stackoverflow.com/questions/18686199/fill-unicode-characters-in-labels
 //https://stackoverflow.com/questions/17511789/button-actionlistener
@@ -291,6 +291,7 @@ public class GameBoard{
         updateBoard(board);
         checkDed(board);
     }
+    
     //finds and sets which player's turn it is as well as the round nuber
     public static void turnCounter(Grid board){ 
         if (playerTurn +1 ==turnOrder.size()){
@@ -332,17 +333,16 @@ public class GameBoard{
     }
     
     public static void generateBoard(Grid board){
-        Runnable r = new Runnable() {
-
-            @Override
+        Runnable r = new Runnable() //constructs Interface Runnable
+        {
+            @Override //overrides the run() method to rewrite the functionality of thread
             public void run() {
-                GameBoard gb =
-                        new GameBoard(board);
+                GameBoard gb = new GameBoard(board); // constructs GameBoard
 
-                JFrame f = new JFrame("WarGames");
+                JFrame f = new JFrame("WarGames"); //creates the frame
                 f.add(gb.getGui());
-                f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                f.setLocationByPlatform(true);
+                f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);//exits the jframe
+                f.setLocationByPlatform(true); // sets the jframe's location on screen
                 
 
                 // ensures the frame is the minimum size it needs to be
@@ -350,24 +350,26 @@ public class GameBoard{
                 f.pack();
                 // ensures the minimum size is enforced.
                 f.setMinimumSize(f.getSize());
-                f.setVisible(true);
+                f.setVisible(true); //makes frame appear on screen
                 
                 
-                updateBoard(board);
+                updateBoard(board); //updates to current board
             }
         };
-        SwingUtilities.invokeLater(r);
+        SwingUtilities.invokeLater(r); //executes "Runnable"
     }
+    
     public static void updateBoard(Grid board){
+        //runs through the 2D array
       for(int i=0; i<board.getSize(); i++){
                     for(int j=0; j<board.getSize(); j++){
-                        if(board.getPos(i,j) < 0){
+                        if(board.getPos(i,j) < 0){ //if the space is empty fill it with ""
                             AddUnicode.addColoredUnicodeCharToContainer(
                             "", //gets the symbol
                             chessBoardSquares[i][j],
                             new Color(203,203,197),
                             Color.WHITE);  
-                        }else{
+                        }else{ //if the space is occupied, fill it with Char symbol
                             AddUnicode.addColoredUnicodeCharToContainer(
                             board.charList.get(board.getPos(i,j)).getSymbol(), //gets the symbol
                             chessBoardSquares[i][j],
